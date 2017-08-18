@@ -25,10 +25,12 @@ class ProposedBet (models.Model):
 	modified_on = models.DateTimeField(auto_now=True)
 
 	class Meta:
-		ordering = ['-created_on']
+		ordering = ['end_date']
+		verbose_name = 'Proposed Bet'
+        verbose_name_plural = 'Proposed Bets'
 
-	def __str__(self):
-		return "{id: %d, user: '%s', prop: '%s'}" % (self.id, self.user.get_full_name(), self.prop_text)
+	def __unicode__(self):
+		return "{id: %d, user: '%s', prop: '%s', wager: '%d'}" % (self.id, self.user.get_full_name(), self.prop_text, self.prop_wager)
 		
 
 
@@ -39,18 +41,28 @@ class AcceptedBet (models.Model):
 	created_on = models.DateTimeField(auto_now_add=True)
 	modified_on = models.DateTimeField(auto_now=True)
 
-	def __str__(self):
-		return "{id: %d, user: '%s', prop_id: %d}" % (self.id, self.accepted_user.get_full_name(), self.accepted_prop.id)
+	class Meta:
+		ordering = ['accepted_prop__end_date']
+		verbose_name = 'Accepted Bet'
+        verbose_name_plural = 'Accpeted Bets'
+
+	def __unicode__(self):
+		return "{id: %d, proposer: '%s', proposee: '%s', prop_bet: '%s', wager: '%d'}" % (self.id, self.accepted_prop.user.get_full_name(), self.accepted_user.get_full_name(), self.accepted_prop.prop_text, self.accepted_prop.prop_wager)
 
 # User Profile table holds some user info specific to this betting app
 class UserProfile (models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	current_balance = models.IntegerField(default=0, help_text='The user\'s current balance. Every time the user settles up, the current balance is reset to zero.')
 	overall_winnings = models.IntegerField(default=0, help_text='The user\'s overall winnings since joining.')
-	get_site_emails = models.BooleanField (default=True)
+	get_prop_bet_emails = models.BooleanField (default=True)
+	get_accepted_bet_emails = models.BooleanField (default=True)
 	last_payment = models.DateTimeField(null=True, blank=True)
 	created_on = models.DateTimeField(auto_now_add=True)
 	modified_on = models.DateTimeField(auto_now=True)
+
+	class Meta:
+		verbose_name = 'User Profile'
+        verbose_name_plural = 'User Profiles'
 
 	def __str__(self):
 		return "%s Profile" % (self.user.get_full_name())
@@ -80,3 +92,10 @@ class UserProfileAudit (models.Model):
 	original_overall_winnings = models.IntegerField()
 	new_overall_winnings = models.IntegerField()
 	created_on = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		verbose_name = 'User Profile Audit'
+        verbose_name_plural = 'User Profile Audits'
+
+	def __str__(self):
+		return "{id: %d, user: '%s', bet: '%s', orig_winnings: '%d', new_winnings: '%d'}" % (self.id, self.user.get_full_name(), self.accepted_bet, self.original_overall_winnings, self.new_overall_winnings)

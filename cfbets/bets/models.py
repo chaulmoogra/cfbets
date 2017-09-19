@@ -59,6 +59,7 @@ class UserProfile (models.Model):
 	last_payment = models.DateTimeField(null=True, blank=True)
 	created_on = models.DateTimeField(auto_now_add=True)
 	modified_on = models.DateTimeField(auto_now=True)
+	premium_account = models.BooleanField (default=False) # Platinum Plus membership
 
 	class Meta:
 		verbose_name = 'User Profile'

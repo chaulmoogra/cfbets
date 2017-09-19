@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block base_content %}
+
+    <div class="container">
+        <h1>Admin Users</h1>
+		<div class="container">
+			<h3>Premium User Selection</h3>
+			<p>Users checked below will receive a Premium experience.</p>
+				{% if expired_prop_bets %}
+        <!-- TODO: Need to fill out this table.  Build list of user names and check boxes to select if they are premium users or not. -->
+					<table class="table table-striped table-bordered table-condensed" id="propExpired">
+						<thead>
+						  <tr>
+							<th>Proposer</th>
+							<th>Prop Bet</th>
+							<th>End Date</th>
+							<th>Win / Loss</th>
+						  </tr>
+						</thead>
+						<tbody>
+						{% for bet in expired_prop_bets %}
+							<tr>
+								<td>{{ bet.user.get_full_name }}</td>
+								<td>{{ bet.prop_text }}</td>
+								<td>{{ bet.end_date|date:"M d Y H:i" }}</td>
+								<td style="text-align: center; vertical-align: middle">
+									<a href="/bets/set_prop_bet?id={{ bet.id }}&status=Win" class="btn btn-primary btn-xs grid-button open-SetPropBet">Win</a>
+									<a href="/bets/set_prop_bet?id={{ bet.id }}&status=Loss" class="btn btn-danger btn-xs grid-button open-SetPropBet">Loss</a>
+									<a href="/bets/set_prop_bet?id={{ bet.id }}&status=Tie" class="btn btn-default btn-xs grid-button open-SetPropBet">Push</a>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<p>No bets to mark.</p>
+				{% endif %}
+
+    </div>
+
+{% endblock %}

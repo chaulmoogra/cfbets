@@ -13,6 +13,22 @@ class ProposedBet (models.Model):
 	max_wagers = models.IntegerField()
 	remaining_wagers = models.IntegerField()
 	end_date = models.DateTimeField()
+	
+	NONE = 'NONE'
+	CFB = 'CFB'
+	SOCCER = 'SOCCER'
+	NFL = 'NFL'
+	BBALL = 'BASKETBALL'
+	BASEBALL = 'BASEBALL'
+	PROP_TYPE_CHOICES = ((NONE, 'None / Other'),
+		     (CFB,'College Football'),
+		     (SOCCER, 'Soccer'),
+		     (NFL, 'NFL'),
+		     (BBALL,'Basketball'),
+		     (BASEBALL,'Baseball')
+		    )
+	
+	prop_type = models.CharField(max_length=20, choices=PROP_TYPE_CHOICES, default=NONE)
 
 	# win / loss / tie choices 
 	WIN = 1

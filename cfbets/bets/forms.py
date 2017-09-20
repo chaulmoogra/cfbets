@@ -7,6 +7,7 @@ class PlaceBetsForm(forms.Form):
 	bet_amount = forms.IntegerField(label='Bet Amount (USD)', initial=5, min_value=1, max_value=20, widget=forms.TextInput(attrs={'autocomplete':'off'}))
 	qty_allowed = forms.IntegerField(label='Qty Allowed', initial=2, min_value=1, max_value=10, widget=forms.TextInput(attrs={'autocomplete':'off'}))
 	bet_expiration_date = forms.DateTimeField(label='Expiration (mm/dd/yyyy 24hr eastern time)', help_text='Default is one week from today. Bet will no longer be available for others to accept after this datetime.', widget=forms.TextInput(attrs={'autocomplete':'off'}))
+	bet_type = forms.ChoiceField(label='Bet Type', initial='', widget=forms.Select(), required=True) # need to revisit this.
 
 	def clean_bet_expiration_date(self):
 		bet_expiration_date = self.cleaned_data['bet_expiration_date']

@@ -126,7 +126,8 @@ def place_bets_form_process(request, next_url):
 									remaining_wagers = form.cleaned_data['qty_allowed'], \
 									end_date = form.cleaned_data['bet_expiration_date'], \
 									created_on = timezone.now(), \
-									modified_on = timezone.now())
+									modified_on = timezone.now()), \
+									prop_type = form.cleaned_data['prop_type']  # this seems wrong
 			# save to the db
 			new_bet.save()
 			

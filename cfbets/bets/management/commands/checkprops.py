@@ -24,7 +24,8 @@ class Command(BaseCommand):
 					for prop_bet in other_props:
 						email_message += '' + prop_bet.user.get_full_name() + \
 										' ($' + str(prop_bet.prop_wager) + \
-										'): ' + prop_bet.prop_text + '\n'
+										'): ' + prop_bet.prop_text + \
+										' (' + prop_bet.prop_type + ')\n'
 
 					# put the site url in there
 					email_message += '\nhttps://www.cfbets.us/bets/open_bets/'
